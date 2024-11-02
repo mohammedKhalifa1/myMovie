@@ -41,6 +41,7 @@ class HomePage extends StatelessWidget {
                     for (int i = 0; i < controller.titleAppBare.length; i++)
                       TitleRowAppBare(
                         onTap: () {
+                          controller.movie();
                           controller.changeCount(i);
                           switch (i) {
                             case 0:

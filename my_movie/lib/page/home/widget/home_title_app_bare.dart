@@ -27,7 +27,7 @@ class TitleRowAppBare extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 10),
             width: 30,
             height: 2,
             color: active == true ? const Color(0xffff5638) : null,
