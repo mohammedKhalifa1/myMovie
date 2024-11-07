@@ -17,4 +17,21 @@ class Curd {
       return left(StatusRequest.serverFailure);
     }
   }
+
+  // String url = "https://myanimelist.p.rapidapi.com/anime/52991";
+  // Map<String, String> headers = {
+  //   'x-rapidapi-key': 'd46b2f9769mshc972327ac1bd94ap1fd5aajsn0d3e81817890',
+  //   'x-rapidapi-host': 'myanimelist.p.rapidapi.com'
+  // };
+
+  // test() async {
+  //   final response = await http.get(Uri.parse(url), headers: headers);
+
+  //   if (response.statusCode == 200) {
+  //     // طباعة الاستجابة بتنسيق JSON
+  //     print(jsonDecode(response.body));
+  //   } else {
+  //     print('Request failed with status: ${response.statusCode}.');
+  //   }
+  // }
 }

@@ -1,22 +1,47 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_movie/core/class/curd.dart';
 import 'package:my_movie/core/class/status_request.dart';
 import 'package:my_movie/core/model/mod_model.dart';
+import 'package:my_movie/page/home/widget/page/favorite_page.dart';
+import 'package:my_movie/page/home/widget/page/home_page_widget.dart';
+import 'package:my_movie/page/home/widget/page/setting_page.dart';
 
 abstract class HomeController extends GetxController {
   changeCount(int val);
-  movie();
-  tvSeries();
-  documentary();
-  sports();
+  functionMovie();
+  functionTvSeries();
+  functionDocumentary();
+  functionSports();
+  changeIndexAppBare(int val);
 }
 
 class HomeControllerImo extends HomeController {
+  int indexAppBare = 0;
   Curd curd = Curd();
   List<OmdModel> movies = [];
-  List<OmdModel> listTvSeries = [];
-  List<OmdModel> listDocumentary = [];
-  List<OmdModel> listSports = [];
+  List<Widget> pages = [
+    const HomePageWidget(),
+    const FavoritePage(),
+    const SettingPage(),
+  ];
+  List<P> bottomNavigation = [
+    P(
+      Icons.home,
+      () {},
+      "Home",
+    ),
+    P(
+      Icons.favorite,
+      () {},
+      "favorite",
+    ),
+    P(
+      Icons.exit_to_app,
+      () {},
+      "Home",
+    )
+  ];
   int count = 0;
   List<String> titleAppBare = [
     "Movies",
@@ -32,13 +57,15 @@ class HomeControllerImo extends HomeController {
   }
 
   @override
-  movie() async {
+  functionMovie() async {
     statusRequest = StatusRequest.loading;
+    movies.clear();
     update();
     var request = await curd.getData(
-        "https://www.omdbapasdi.com/?i=tt3896198&apikey=e10789be&s=movies");
+        "https://www.omdbapi.com/?i=tt3896198&apikey=e10789be&s=movies");
     var data = request.fold((l) => l, (r) => r);
     if (data is Map) {
+      statusRequest = StatusRequest.success;
       List d = data['Search'];
       // movies.addAll(d.map(
       //   (e) => OmdModel.fromJson(e),
@@ -55,15 +82,18 @@ class HomeControllerImo extends HomeController {
   }
 
   @override
-  documentary() async {
+  functionDocumentary() async {
     statusRequest = StatusRequest.loading;
+    movies.clear();
     update();
     var request = await curd.getData(
-        "https://www.omdbapasdi.com/?i=tt3896198&apikey=e10789be&s=documentary");
+        "https://www.omdbapi.com/?i=tt3896198&apikey=e10789be&s=documentary");
     var data = request.fold((l) => l, (r) => r);
     if (data is Map) {
+      movies.clear;
+      statusRequest = StatusRequest.success;
       for (var element in data['Search']) {
-        listDocumentary.add(OmdModel.fromJson(element));
+        movies.add(OmdModel.fromJson(element));
       }
     } else {
       if (data is StatusRequest) {
@@ -74,15 +104,40 @@ class HomeControllerImo extends HomeController {
   }
 
   @override
-  sports() async {
+  functionSports() async {
     statusRequest = StatusRequest.loading;
+    movies.clear();
     update();
     var request = await curd.getData(
-        "https://www.omdbapasdi.com/?i=tt3896198&apikey=e10789be&s=sports");
+        "https://www.omdbapi.com/?i=tt3896198&apikey=e10789be&s=sports");
     var data = request.fold((l) => l, (r) => r);
     if (data is Map) {
+      statusRequest = StatusRequest.success;
       for (var element in data['Search']) {
-        listDocumentary.add(OmdModel.fromJson(element));
+        movies.add(OmdModel.fromJson(element));
+      }
+    } else {
+      if (data is StatusRequest) {
+        statusRequest = data;
+      }
+    }
+
+    update();
+  }
+
+  @override
+  functionTvSeries() async {
+    statusRequest = StatusRequest.loading;
+    movies.clear();
+    update();
+    var request = await curd.getData(
+        "https://www.omdbapi.com/?i=tt3896198&apikey=e10789be&s=tv+series");
+    var data = request.fold((l) => l, (r) => r);
+    if (data is Map) {
+      statusRequest = StatusRequest.success;
+      List d = data['Search'];
+      for (var element in d) {
+        movies.add(OmdModel.fromJson(element));
       }
     } else {
       if (data is StatusRequest) {
@@ -93,21 +148,21 @@ class HomeControllerImo extends HomeController {
   }
 
   @override
-  tvSeries() async {
-    statusRequest = StatusRequest.loading;
-    update();
-    var request = await curd.getData(
-        "https://www.omdbapasdi.com/?i=tt3896198&apikey=e10789be&s=tvSeries");
-    var data = request.fold((l) => l, (r) => r);
-    if (data is Map) {
-      for (var element in data['Search']) {
-        listDocumentary.add(OmdModel.fromJson(element));
-      }
-    } else {
-      if (data is StatusRequest) {
-        statusRequest = data;
-      }
-    }
+  void onInit() {
+    functionMovie();
+    super.onInit();
+  }
+
+  @override
+  changeIndexAppBare(val) {
+    indexAppBare = val;
     update();
   }
+}
+
+class P {
+  String title;
+  IconData iconData;
+  VoidCallback onTap;
+  P(this.iconData, this.onTap, this.title);
 }
