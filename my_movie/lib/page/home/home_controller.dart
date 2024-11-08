@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_movie/core/class/curd.dart';
+import 'package:my_movie/core/class/route_name.dart';
 import 'package:my_movie/core/class/status_request.dart';
 import 'package:my_movie/core/model/mod_model.dart';
 import 'package:my_movie/page/home/widget/page/favorite_page.dart';
@@ -14,6 +15,7 @@ abstract class HomeController extends GetxController {
   functionDocumentary();
   functionSports();
   changeIndexAppBare(int val);
+  goToItemsDetails(OmdModel omdbapi, int i);
 }
 
 class HomeControllerImo extends HomeController {
@@ -156,6 +158,13 @@ class HomeControllerImo extends HomeController {
   @override
   changeIndexAppBare(val) {
     indexAppBare = val;
+    update();
+  }
+
+  @override
+  goToItemsDetails(OmdModel omdbapi, i) {
+    Get.toNamed(RouteName.items, arguments: {'item': omdbapi, "i": i});
+
     update();
   }
 }

@@ -2,7 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_movie/page/home/home_page.dart';
+import 'package:my_movie/core/class/route.dart';
 
 void main() {
   runApp(DevicePreview(
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       theme: ThemeData(scaffoldBackgroundColor: const Color(0xff13131c)),
-      home: const HomePage(),
+      routes: routes,
     );
   }
 }
+//HomePage
