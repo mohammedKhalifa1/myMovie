@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:my_movie/page/items/items_controller.dart';
+import 'package:my_movie/page/items/widget/details_movie.dart';
+
+import 'widget/container_show_widget.dart';
 
 class Items extends StatelessWidget {
   const Items({super.key});
@@ -10,19 +14,46 @@ class Items extends StatelessWidget {
     Get.lazyPut(() => ItemsControllerImp());
 
     return GetBuilder<ItemsControllerImp>(
-      builder: (controller) => Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          children: [
-            Text(
-              controller.omdModel!.title!,
-              style: const TextStyle(color: Colors.red),
-            ),
-            Text(
-              controller.i.toString(),
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
+      builder: (controller) => SafeArea(
+        child: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ContainerShowMovie(
+                controller: controller,
+              ),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DetailsMovie(
+                      controller: controller,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          const Text(
+                            "Related Movies",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Container(
+                            //_____________________
+                            height: 100,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => Container(),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
